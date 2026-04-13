@@ -142,7 +142,8 @@ public class Translator {
      */
     public static Optional<Integer> getTargetPC(Object[] operands, int index) {
         if (!ensureOperandIsType(operands, index, Integer.class, "resolved PC index")) {
-            // TODO
+            // empty if not an Integer
+            return Optional.empty();
         }
         return Optional.of((Integer) operands[index]);
     }
@@ -292,7 +293,12 @@ public class Translator {
             var clazz = Class.forName(INSTRUCTION_PACKAGE + className);
             log.info(format("Token '%s' resolved to opcode.", token));
             return Optional.of(clazz);
+            // token doesn't match any instruction class
         } catch (ClassNotFoundException e) {
+            log.info(format("Token '%s' is not an opcode.", token));
+            return Optional.empty();
+            // when an uppercase label accidentally finds a class file (T12: SUB finds SubInstr.class but it's not an opcode)
+        } catch (NoClassDefFoundError e) {
             log.info(format("Token '%s' is not an opcode.", token));
             return Optional.empty();
         }
