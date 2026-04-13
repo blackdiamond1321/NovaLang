@@ -47,11 +47,13 @@ public class NovaVM {
             }
 
             // Create context for the instruction
-            // TODO
+            //pass the instruction, registers, PC, labels, call stack to the instruction
+            var context = new ProgramContext(registers, pc, labels, contextStack, this);
 
             // Execute the instruction and get the next PC
             Optional<Integer> nextPC = instruction.execute(context);
-            // TODO
+
+            pc = nextPC.get(); // Update PC to the next instruction
 
             // Task termination check: 'ret' acts as halt for async tasks
             if (contextStack != callStack && instruction instanceof RetInstr) {
