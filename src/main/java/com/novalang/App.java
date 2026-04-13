@@ -32,8 +32,10 @@ public class App {
         }
 
         // --- Dependency Injection / Wiring Phase ---
-        Translator translator = null; // TODO
-        NovaVMFactory vmFactory = null; // TODO
+        // create translator  to parse the source file into instructions
+        Translator translator = new Translator();
+        // create VM factory to produce the NovaVM instance
+        NovaVMFactory vmFactory = new DefaultNovaVMFactory();
 
 
         try {
@@ -44,15 +46,18 @@ public class App {
                 // 1. Translation: Load and parse the source file
                 System.out.printf("Translating source file: %s\n", args[0]);
                 long translationStart = System.nanoTime();
-                // TODO — translate the file
+                // translate the file
+                translator.translate(f);
                 long translationEnd = System.nanoTime();
 
                 // 2. Data Retrieval
-                List<Instruction> program = null; // TODO
-                Map<String, Integer> labels = null; // TODO
+                // get the instructions and labels from the translator
+                List<Instruction> program = translator.program();
+                Map<String, Integer> labels = translator.labels();
 
                 // 3. VM Creation using Factory (DI)
-                NovaVM vm = null; // TODO
+                // create the NovaVM, passing in the program and labels
+                NovaVM vm = vmFactory.create(program, labels);
 
                 // 4. Run
                 System.out.println("\n--- Program Execution ---");
