@@ -86,9 +86,13 @@ public class NovaVM {
         // Concurrency: Use Virtual Threads (Required)
         Future<?> future = executor.submit(() -> {
             // New stack for the async task
-            // TODO
+            var taskStack = new Stack<Integer>();
+            // execute the async task starting at the given PC
+            executeThread(startPC, taskStack);
         });
-        // TODO
+
+        // track the future
+        asyncTasks.add(future);
 
         log.info("VM started async task at PC " + startPC + ". Total running tasks: " + asyncTasks.size());
     }
