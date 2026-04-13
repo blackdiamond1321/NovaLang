@@ -254,7 +254,10 @@ public class Translator {
 
             // Check if the first token is a label (it is a label if it's NOT an opcode)
             if (!isOpcode(firstToken)) {
-
+                // Check for duplicate label
+                if (labels.containsKey(firstToken)) {
+                    throw new TranslationException("Duplicate label found: " + firstToken);
+                }
                 //map the label to the current PC index
                 labels.put(firstToken, i);
                 log.info(format("Found label '%s' at PC index %d", firstToken, i));
