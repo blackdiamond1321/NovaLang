@@ -16,7 +16,7 @@ version = "1.0-SNAPSHOT"
 // Ensure we target the required Java version
 java.toolchain {
     // Assuming Java 25 is the target (or the latest LTS supporting virtual threads/sealed types)
-    languageVersion.set(JavaLanguageVersion.of(25))
+    languageVersion.set(JavaLanguageVersion.of(26)) // changed to 26
 
 }
 
