@@ -348,7 +348,7 @@ public class Translator {
 
             try {
                 // resolve the opcode to an Instruction class using reflection
-                var instrClass = Class.forName(fullClassName);
+                var instructionClass = Class.forName(fullClassName);
                 log.info(format("Resolved opcode '%s' to class '%s'.", opcode, fullClassName));
 
                 // Prepare operands: Resolve labels to PC index immediately
@@ -356,11 +356,15 @@ public class Translator {
                 log.info(format("Resolved operands for opcode '%s': %s", opcode, Arrays.toString(operands)));
 
                 // Get the mandatory reflection constructor signature: (String label, Object... operands)
-                // TODO
+
+                var constructor = instructionClass.getConstructor(String.class, Object[].class);
                 log.info(format("Found constructor for class '%s'.", fullClassName));
 
                 // Reflection: Instantiate the instruction dynamically
-                // TODO
+
+                // pass the label and operands to constructor
+                // the instruction will validate operand types and values
+                var instruction = (Instruction) constructor.newInstance(label, operands);
                 program.add(instruction);
                 log.info(format("Instantiated instruction: %s at PC index %d", instruction.getClass().getSimpleName(), i));
 
