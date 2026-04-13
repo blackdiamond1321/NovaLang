@@ -67,7 +67,9 @@ public class NovaVM {
      */
     public void run() {
         log.info("VM starting execution on main thread...");
-        //TODO
+        //start from firsts instruction in run method
+        executeThread(0, callStack);
+
 
         // Clean up resources
         executor.shutdownNow();
