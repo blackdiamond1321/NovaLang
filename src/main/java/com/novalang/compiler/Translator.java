@@ -220,9 +220,7 @@ public class Translator {
         var lines = Files.readAllLines(path);
         log.info(format("Read %d lines from file.", lines.size()));
 
-        /**
-         * map the labels to their corresponding PC index and parse instructions in a second pass.
-         */
+        // map the labels to their corresponding PC indices and parse instructions in 2nd pass
         // Pass 1: Collect Labels
         log.info("Pass 1: Collecting labels.");
         collectLabels(lines);
@@ -332,7 +330,14 @@ public class Translator {
                 operandTokens = Arrays.copyOfRange(tokens, 1, tokens.length);
                 log.info(format("Line %d starts with opcode '%s'.", i + 1, opcode));
             } else if (tokens.length > 1 && isOpcode(tokens[1])) {
-                // TODO
+                // take the 1st token as label and the 2nd as opcode, the rest are operands
+                label = tokens[0];
+                opcode = tokens[1];
+
+                // use Arrays.stream instead of copyOfRange to skip the first 2 tokens and the rest as operandTokens
+                operandTokens = Arrays.stream(tokens)
+                        .skip(2)
+                        .toArray(String[]::new);
                 log.info(format("Line %d has label '%s' and opcode '%s'.", i + 1, label, opcode));
             } else {
                 log.warning(format("Invalid syntax or unknown opcode/label at line %d: %s", (i + 1), line));
