@@ -220,14 +220,17 @@ public class Translator {
         var lines = Files.readAllLines(path);
         log.info(format("Read %d lines from file.", lines.size()));
 
+        /**
+         * map the labels to their corresponding PC index and parse instructions in a second pass.
+         */
         // Pass 1: Collect Labels
         log.info("Pass 1: Collecting labels.");
-        // TODO
+        collectLabels(lines);
         log.info(format("Collected %d labels: %s", labels.size(), labels));
 
         // Pass 2: Parse and Resolve Instructions
         log.info("Pass 2: Parsing and resolving com.novalang.instructions.");
-        // TODO
+        parseInstructions(lines);
         log.info(format("Translation complete. Generated %d com.novalang.instructions.", program.size()));
     }
 
