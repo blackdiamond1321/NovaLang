@@ -1,3 +1,6 @@
+; infinite loop. File runs forever as r22 is always 0, so r0 is always 3, so the jnz instruction always jumps back
+; to b1, and print r0 is never reached. Stopped program manually
+
 # Branch test
 b0 set r0 3
 b1 sub r0 r0 r22
