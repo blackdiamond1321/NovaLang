@@ -347,7 +347,8 @@ public class Translator {
             var fullClassName = INSTRUCTION_PACKAGE + opcode.substring(0, 1).toUpperCase() + opcode.substring(1) + "Instr";
 
             try {
-                // TODO
+                // resolve the opcode to an Instruction class using reflection
+                var instrClass = Class.forName(fullClassName);
                 log.info(format("Resolved opcode '%s' to class '%s'.", opcode, fullClassName));
 
                 // Prepare operands: Resolve labels to PC index immediately
