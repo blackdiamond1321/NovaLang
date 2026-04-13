@@ -14,11 +14,14 @@ public record RegisterManager(int[] registers) {
         return index >= 0 && index < registers.length;
     }
 
-    public Optional<Integer> get(int index) {
+    // changed Optional<Integer> to int as for test I2 it returns Optional[25] instead of just int 25
+    public int get(int index) {
         if (!isValidIndex(index)) {
-            return Optional.empty();
+            // throw an exception instead of returning Optional.empty() as Optional was changed to int
+            throw new IllegalArgumentException("Index out of range: " + index);
+
         }
-        return Optional.of(registers[index]);
+        return registers[index];
     }
 
     public boolean set(int index, int value) {
