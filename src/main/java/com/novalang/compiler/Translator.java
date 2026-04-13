@@ -213,7 +213,9 @@ public class Translator {
      */
     public void translate(Path path) throws IOException {
         log.info(format("Starting translation for file: %s", path));
-        // TODO
+        // clear previous state
+        program.clear();
+        labels.clear();
 
         var lines = Files.readAllLines(path);
         log.info(format("Read %d lines from file.", lines.size()));
