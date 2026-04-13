@@ -21,7 +21,8 @@ public record JnzInstr(String label, int rCond, int targetPC) implements Instruc
 
     @Override
     public Optional<Integer> execute(ProgramContext context) {
-        return context.registers().get(rCond).map(val -> {
+        // wrap int return from get() in Optional
+        return Optional.of(context.registers().get(rCond)).map(val -> {
             if (val != 0) {
                 return targetPC;
             } else {
