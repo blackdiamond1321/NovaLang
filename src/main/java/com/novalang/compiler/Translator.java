@@ -253,7 +253,9 @@ public class Translator {
 
             // Check if the first token is a label (it is a label if it's NOT an opcode)
             if (!isOpcode(firstToken)) {
-                // TODO
+
+                //map the label to the current PC index
+                labels.put(firstToken, i);
                 log.info(format("Found label '%s' at PC index %d", firstToken, i));
             } else {
                 log.info(format("Token '%s' at PC %d is an opcode, not a label.", firstToken, i));
